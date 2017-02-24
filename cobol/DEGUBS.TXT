@@ -1,0 +1,126 @@
+
+            Microsoft COBOL Compiler
+Version 2.20 (C)Copyright Microsoft Corp. 1982-87
+
+
+** Scanning Environment Division...
+** Scanning Data Division...
+0033:Group item,therefore PIC/JUST/BLANK/SYNC is ignored. 
+  34                      05 LOCALIDADE  PIC X(20).
+0053:Syntax error in SCREEN SECTION description. 05
+0053:/W/Redundant clause ignored. 01
+  53             05  LINE 01  COLUMN 41
+0053:/W/Redundant clause ignored. 41
+  54                 VALUE  "ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ�
+0054:/W/Redundant clause ignored. ÍÍÍÍÍÍÍÍÍÍÍ
+0055:Syntax error in SCREEN SECTION description. 05
+0055:/W/Redundant clause ignored. 02
+  55             05  LINE 02  COLUMN 01
+0055:/W/Redundant clause ignored. 01
+  56                 VALUE  "º".
+0056:/W/Redundant clause ignored. º
+  57             05  LINE 02  COLUMN 41
+0069:Syntax error in SCREEN SECTION description. 05
+0069:/W/Redundant clause ignored. 05
+  69             05  LINE 05  COLUMN 41
+0069:/W/Redundant clause ignored. 41
+  70                 VALUE  "ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ�
+0070:/W/Redundant clause ignored. ÍÍÍÍÍÍÍÍÍÍÍ
+0071:Syntax error in SCREEN SECTION description. 05
+0071:/W/Redundant clause ignored. 06
+  71             05  LINE 06  COLUMN 01
+0071:/W/Redundant clause ignored. 01
+  72                 VALUE  "º".
+0072:/W/Redundant clause ignored. º
+  73             05  LINE 06  COLUMN 41
+0077:Syntax error in SCREEN SECTION description. 05
+0077:/W/Redundant clause ignored. 07
+  77             05  LINE 07  COLUMN 41
+0077:/W/Redundant clause ignored. 41
+  78                 VALUE  "ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+0078:/W/Redundant clause ignored. ÄÄÄÄÄÄÄÄÄÄÄ
+0079:Syntax error in SCREEN SECTION description. 05
+0079:/W/Redundant clause ignored. 08
+  79             05  LINE 08  COLUMN 01
+0079:/W/Redundant clause ignored. 01
+  80                 VALUE  "º  ³            ³".
+0080:/W/Redundant clause ignored. º  ³            ³
+  81             05  LINE 08  COLUMN 41
+0085:Syntax error in SCREEN SECTION description. 05
+0085:/W/Redundant clause ignored. 09
+  85             05  LINE 09  COLUMN 41
+0085:/W/Redundant clause ignored. 41
+  86                 VALUE  "ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+0086:/W/Redundant clause ignored. ÄÄÄÄÄÄÄÄÄÄÄ
+0087:Syntax error in SCREEN SECTION description. 05
+0087:/W/Redundant clause ignored. 10
+  87             05  LINE 10  COLUMN 01
+0087:/W/Redundant clause ignored. 01
+  88                 VALUE  "º  ÚÄ[ BAIRRO ]ÄÄÄÄÄÄÄÄÄÄÄÂÄ[ CID
+0088:/W/Redundant clause ignored. º  ÚÄ[ BAIRRO ]ÄÄ
+0089:Syntax error in SCREEN SECTION description. 05
+0089:/W/Redundant clause ignored. 10
+  89             05  LINE 10  COLUMN 41
+0089:/W/Redundant clause ignored. 41
+  90                 VALUE  "ÄÄÄÄÄÄÄÄÄÂÄ[ UF ]Ä¿
+0090:/W/Redundant clause ignored. ÄÄÄÄÄÄÄÄÄÂÄ
+0091:Syntax error in SCREEN SECTION description. 05
+0091:/W/Redundant clause ignored. 11
+  91             05  LINE 11  COLUMN 01
+0091:/W/Redundant clause ignored. 01
+  92                 VALUE  "º  ³                      ³".
+0092:/W/Redundant clause ignored. º  ³                
+  93             05  LINE 11  COLUMN 41
+0097:Syntax error in SCREEN SECTION description. 05
+0097:/W/Redundant clause ignored. 12
+  97             05  LINE 12  COLUMN 41
+0097:/W/Redundant clause ignored. 41
+  98                 VALUE  "ÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÙ
+0098:/W/Redundant clause ignored. ÄÄÄÄÄÄÄÄÄÁÄ
+0099:Syntax error in SCREEN SECTION description. 05
+0099:/W/Redundant clause ignored. 13
+  99             05  LINE 13  COLUMN 01
+0099:/W/Redundant clause ignored. 01
+ 100                 VALUE  "º  ÚÄ[ TIPO LOCALIDADE ]ÄÄÄÄ¿".
+0100:/W/Redundant clause ignored. º  ÚÄ[ TIPO LOCALID
+ 101             05  LINE 13  COLUMN 41
+0109:Syntax error in SCREEN SECTION description. 05
+0109:/W/Redundant clause ignored. 15
+ 109             05  LINE 15  COLUMN 41
+0109:/W/Redundant clause ignored. 41
+ 110                 VALUE  "                                       º".
+0110:/W/Redundant clause ignored.                       
+ 111             05  LINE 16  COLUMN 01
+0137:Syntax error in SCREEN SECTION description. 05
+0137:/W/Redundant clause ignored. 22
+ 137             05  LINE 22  COLUMN 41
+0137:/W/Redundant clause ignored. 41
+ 138                 VALUE  "ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ�
+0138:/W/Redundant clause ignored. ÍÍÍÍÍÍÍÍÍÍÍ
+0139:Syntax error in SCREEN SECTION description. 05
+0139:/W/Redundant clause ignored. 23
+ 139             05  LINE 23  COLUMN 01
+0139:/W/Redundant clause ignored. 01
+ 140                 VALUE  "ºMENSAGEM:".
+0140:/W/Redundant clause ignored. ºMENSAGEM: 
+ 141             05  LINE 23  COLUMN 41
+0145:Syntax error in SCREEN SECTION description. 05
+0145:/W/Redundant clause ignored. 24
+ 145             05  LINE 24  COLUMN 41
+0145:/W/Redundant clause ignored. 41
+ 146                 VALUE  "ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ�
+0146:/W/Redundant clause ignored. ÍÍÍÍÍÍÍÍÍÍÍ
+0147:Syntax error in SCREEN SECTION description. 05
+ 147             05  TNUMCEP
+0147:Syntax error in SCREEN SECTION description. TNUMCEP 
+0148:/W/Redundant clause ignored. 08
+0148:/W/Redundant clause ignored. 06
+ 148                 LINE 08  COLUMN 06  PIC 99999.999
+** Compiling Procedure Division...
+** Generating Object Code...
+
+   69 errors or warnings
+
+   Data area size =  1608
+   Code area size =  2984
+

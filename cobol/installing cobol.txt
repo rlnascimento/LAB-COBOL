@@ -1,0 +1,57 @@
+COBOL is not particularly popular on Linux but there are compilers available. One of these is open-cobol.
+
+First step is to check if it's installed on your system: it probably isn't.
+
+whereis cobc; which cobc
+cobc:
+If like my system it is not installed you can install it with
+
+sudo apt-get install open-cobol
+And to check its installed whereis cobc; which cobc
+
+cobc: /usr/bin/cobc /usr/bin/X11/cobc /usr/share/man/man1/cobc.1.gz
+/usr/bin/cobc
+Now lets write our first program with any text editor.
+
+IDENTIFICATION DIVISION.
+PROGRAM-ID. HELLO-WORLD.
+*> simple hello world program
+PROCEDURE DIVISION.
+    DISPLAY 'Hello world!'.
+    STOP RUN.
+save this as "helloworld.cbl"
+
+We can now compile it with cobc -free -x -o helloworld helloworld.cbl
+
+On my system I see this
+
+$ cobc -free -x -o helloworld helloworld.cbl
+/tmp/cob3837_0.c: In function ‘HELLO_2DWORLD_’:
+/tmp/cob3837_0.c:75:7: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+/tmp/cob3837_0.c:76:7: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+/tmp/cob3837_0.c:77:7: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+/tmp/cob3837_0.c:88:3: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+/tmp/cob3837_0.c:107:5: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+/tmp/cob3837_0.c:111:3: warning: dereferencing type-punned pointer will break strict-aliasing rules [-Wstrict-aliasing]
+A few warnings -- but no errors test with ./helloworld
+
+Hello World!
+It works.
+
+Alternative (fixed format):
+
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. HELLO-WORLD.
+      * simple hello world program
+       PROCEDURE DIVISION.
+           DISPLAY 'Hello world!'.
+           STOP RUN.
+save this as "helloworld.cob" and compile it with cobc helloworld.cob (run with cobcrun helloworld.
+
+If you want to remove the warnings from the C compiler: download a current GnuCOBOL 2.x snapshot (which has no updated package yet) and build it yourself (needs an additional apt-get bison flex libdb-dev curses-dev).
+
+Taken from:
+
+Cobol Hello World Example: How To Write, Compile and Execute Cobol Program on Linux OS on thegeekstuff.com
+
+Tested on Ubuntu 12.04.2
