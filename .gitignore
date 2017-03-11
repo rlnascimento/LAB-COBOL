@@ -4,3 +4,5 @@
 *.docx
 *.tar
 *.tar.*
+*.INT
+*.DBG

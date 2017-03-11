@@ -1,0 +1,45 @@
+
+            Microsoft COBOL Compiler
+Version 2.20 (C)Copyright Microsoft Corp. 1982-87
+
+
+** Scanning Environment Division...
+** Scanning Data Division...
+** Compiling Procedure Division...
+0064:Unrecognizable element is ignored.  ME
+  65                        PERFORM ROT-MENS THRU ROT-MENS-FIM
+0070:Unrecognizable element is ignored.  QUANT 
+0070:Unrecognizable element is ignored.  PRECMD
+  70                  MOVE ZEROS  TO QUANT PRECMD VRESTOQ
+0070:Unrecognizable element is ignored.  VRESTOQ 
+  71                  MOVE SPACES TO NOME EMAIL APELIDO.
+0096:Statement deleted due to erroneous syntax. UNID
+  97                        DISPLAY (07, 12) QUANT
+0097:Statement deleted due to erroneous syntax. QUANT 
+  98                        DISPLAY (08, 12) PRECMD
+0098:Statement deleted due to erroneous syntax. PRECMD
+  99                        DISPLAY (09, 12) VRESTOQ
+0099:Statement deleted due to erroneous syntax. VRESTOQ 
+ 100                        MOVE "*** AMIGO JA CADASTRAD0 ***" TO MENS
+0115:Statement deleted due to erroneous syntax. UNID
+ 116                  ACCEPT W-ACT FROM ESCAPE KEY
+0119:Statement deleted due to erroneous syntax. QUANT 
+ 120                  ACCEPT W-ACT FROM ESCAPE KEY
+0123:Statement deleted due to erroneous syntax. PRECMD
+ 124                  ACCEPT W-ACT FROM ESCAPE KEY
+0127:Statement deleted due to erroneous syntax. VRESTOQ 
+0127:Unrecognizable element is ignored.  = 
+0127:Unrecognizable element is ignored.  QUANT 
+0127:Unrecognizable element is ignored.  * 
+ 127                  COMPUTE VRESTOQ = QUANT * PRECMD
+0127:Unrecognizable element is ignored.  PRECMD
+ 128                  DISPLAY (09, 12)VRESTOQ
+0128:Statement deleted due to erroneous syntax. VRESTOQ 
+ 131                  IF W-SEL = 1
+** Generating Object Code...
+
+   17 errors or warnings
+
+   Data area size =  1692
+   Code area size =  1758
+
