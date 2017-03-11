@@ -24,8 +24,8 @@
        FD CODAMIGO
                LABEL RECORD IS STANDARD
                VALUE OF FILE-ID IS "AMIGO.DAT".
-       01 REGCEP.
-                03 APELICO             PIC X(12).
+       01 REGAMIGO.
+                03 APELIDO             PIC X(12).
                 03 NOME                PIC X(35).
                 03 EMAIL               PIC X(25).
                 03 TELEFONE.
@@ -46,23 +46,25 @@
        77 W-ACT        PIC 9(02) VALUE ZEROS.
        77 MENS         PIC X(50) VALUE SPACES.
        77 LIMPA        PIC X(50) VALUE SPACES.
+       77 RESULTADO    PIC 9(02) VALUE ZERO.
+       77 RESTO        PIC 9(02) VALUE ZERO.
        77 TEXTOAMIGO   PIC X(10) VALUE SPACES.
-       77 MASC1        PIC 9.9999.9999
+       77 MASC1        PIC 9.9999.9999.
        
       *VECTOR
        01 TABAMIGO.
-            03  TABAMIGO0       PIC X(10) VALUE "FACULDADE".
-            03  TABAMIGO1       PIC X(10) VALUE "IGREJA".
-            03  TABAMIGO2       PIC X(10) VALUE "BAIRRO".
-            03  TABAMIGO3       PIC X(10) VALUE "CLUBE".
-            03  TABAMIGO4       PIC X(10) VALUE "BALADA".
-            03  TABAMIGO5       PIC X(10) VALUE "ACADEMIA".
-            03  TABAMIGO6       PIC X(10) VALUE "BOTECO".
-            03  TABAMIGO7       PIC X(10) VALUE "PRAIA".
-            03  TABAMIGO8       PIC X(10) VALUE "VIAGEM".
-            03  TABAMIGO9       PIC X(10) VALUE "INIMIGO".
+            03  TABAMIGO0 PIC X(12) VALUE "FACULDADE".
+            03  TABAMIGO1 PIC X(12) VALUE "IGREJA".
+            03  TABAMIGO2 PIC X(12) VALUE "BAIRRO".
+            03  TABAMIGO3 PIC X(12) VALUE "CLUBE".
+            03  TABAMIGO4 PIC X(12) VALUE "BALADA".
+            03  TABAMIGO5 PIC X(12) VALUE "ACADEMIA".
+            03  TABAMIGO6 PIC X(12) VALUE "BOTECO".
+            03  TABAMIGO7 PIC X(12) VALUE "PRAIA".
+            03  TABAMIGO8 PIC X(12) VALUE "VIAGEM".
+            03  TABAMIGO9 PIC X(12) VALUE "INIMIGO".
        01 TABELAAMIGO REDEFINES TABAMIGO.
-            03  TABELAAMIGOV    PIC X(10) OCCURS 10 TIMES. 
+            03  TABELAAMIGOV PIC X(12) OCCURS 10 TIMES. 
             
        01 TABDIAMES.
             03 TABJAN PIC 9(02) VALUE 31.
@@ -85,11 +87,11 @@
        INICIO.
       *
        INC-OP0.
-           OPEN I-O CADAMIGO
+           OPEN I-O CODAMIGO
            IF ST-ERRO NOT = "00"
                IF ST-ERRO = "30"
-                      OPEN OUTPUT CADAMIGO
-                      CLOSE CADAMIGO
+                      OPEN OUTPUT CODAMIGO
+                      CLOSE CODAMIGO
                       MOVE "*** ARQUIVO AMIGO SENDO CRIADO **" TO MENS
                       PERFORM ROT-MENS THRU ROT-MENS-FIM
                       GO TO INC-OP0
@@ -115,7 +117,7 @@
                 ACCEPT  (04, 12) APELIDO
                 ACCEPT W-ACT FROM ESCAPE KEY
                  IF W-ACT = 02
-                   CLOSE CADAMIGO
+                   CLOSE CODAMIGO
                    GO TO ROT-FIM.
                 IF APELIDO  = 0
                    MOVE "*** AMIGO INVALIDO ***" TO MENS
@@ -123,7 +125,7 @@
                    GO TO INC-001.
        LER-AMIGO01.
                 MOVE 0 TO W-SEL
-                READ CADAMIGO
+                READ CODAMIGO
                 IF ST-ERRO NOT = "23"
                    IF ST-ERRO = "00"
                       DISPLAY (05, 18) NOME
@@ -169,8 +171,8 @@
                     MOVE "*** TELEFONE AMIGO INVALIDO ***" TO MENS
                     PERFORM ROT-MENS THRU ROT-MENS-FIM
                     GO TO INC-006.
-                MOVE NUMEMO TO MASC1
-                DISPLAY (07, 22) MENC1
+                MOVE NUMERO TO MASC1
+                DISPLAY (07, 22) MASC1.
        INC-007.
                 ACCEPT (08, 18) TIPOAMIGO
                 ACCEPT W-ACT FROM ESCAPE KEY
@@ -180,8 +182,8 @@
                     PERFORM ROT-MENS THRU ROT-MENS-FIM
                     GO TO INC-007.
        INC-008.
-                MOVE TABELAAMIGO(TIPOAMIGO) TO TEXTOAMIGO.
-                DISPLAY (08, 20).
+                MOVE TABELAAMIGOV(TIPOAMIGO) TO TEXTOAMIGO.
+                DISPLAY (08, 20) TEXTOAMIGO.
        INC-DIA.
                 ACCEPT (09, 18) DIA
                 ACCEPT W-ACT FROM ESCAPE KEY
@@ -199,13 +201,13 @@
                     PERFORM ROT-MENS THRU ROT-MENS-FIM
                     GO TO INC-MES.
        INC-ANO.
-                ACCEPT (09, 18) DIA
+                ACCEPT (09, 18) ANO
                 ACCEPT W-ACT FROM ESCAPE KEY
                 IF W-ACT = 02 GO TO INC-007.
-                IF DIA < 1800 OR DIA > 2999
+                IF ANO < 1800 OR ANO > 2999
                     MOVE "*** DIA INVALIDO ***" TO MENS
                     PERFORM ROT-MENS THRU ROT-MENS-FIM
-                    GO TO INC-DIA.
+                    GO TO INC-ANO.
       *
       ****************************************************
       * VALIDA MES COM A PARTICULARIDADE DO ANO BISSEXTO *
@@ -220,7 +222,7 @@
                             PERFORM ROT-MENS THRU ROT-MENS-FIM
                             GO TO INC-DIA
                         ELSE
-                            TO TO INC-010.
+                            GO TO INC-010.
        INC-010.
                 IF DIA > TABELAAMIGOV(MES) AND MES NOT = 2
                     MOVE "*** DIA INVALIDO! ***" TO MENS
@@ -245,7 +247,7 @@
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
                    GO TO INC-OPC.
        INC-WR1.
-                WRITE REGPRO
+                WRITE REGAMIGO
                 IF ST-ERRO = "00" OR "02"
                       MOVE "*** DADOS GRAVADOS *** " TO MENS
                       PERFORM ROT-MENS THRU ROT-MENS-FIM
@@ -291,7 +293,7 @@
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
                    GO TO EXC-OPC.
        EXC-DL1.
-                DELETE CADAMIGO RECORD
+                DELETE CODAMIGO RECORD
                 IF ST-ERRO = "00"
                    MOVE "*** REGISTRO EXCLUIDO ***           " TO MENS
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
@@ -314,7 +316,7 @@
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
                    GO TO ALT-OPC.
        ALT-RW1.
-                REWRITE REGPRO
+                REWRITE REGAMIGO
                 IF ST-ERRO = "00" OR "02"
                    MOVE "*** REGISTRO ALTERADO ***         " TO MENS
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
