@@ -48,6 +48,25 @@
        77 MENS         PIC X(50) VALUE SPACES.
        77 LIMPA        PIC X(50) VALUE SPACES.
        77 MASC1        PIC 9.999.9999
+       
+      * VETOR
+
+      * Você tem que criar uma tabela
+      * Você vai criar uma variavel que vai receber os valores da tabela
+       01 TABELA.
+               03 AMIGO1 PIC X(12) VALUE "FACULDADE".  
+               03 AMIGO2 PIC X(12) VALUE "IGREJA".  
+               03 AMIGO3 PIC X(12) VALUE "BAIRRO".  
+               03 AMIGO4 PIC X(12) VALUE "CLUBE".  
+               03 AMIGO5 PIC X(12) VALUE "BALADA".  
+               03 AMIGO6 PIC X(12) VALUE "ACADEMIA".  
+               03 AMIGO7 PIC X(12) VALUE "BOTECO".  
+               03 AMIGO8 PIC X(12) VALUE "PRAIA".  
+               03 AMIGO9 PIC X(12) VALUE "VIAGEM".  
+               03 AMIGO10 PIC X(12) VALUE "INIMIGO".
+       
+       01 VARTABELA REDEFINES TABELA.
+               03 VARTABELA PIC X(12) OCCURS 10 TIMES.    
       *-----------------------------------------------------------------
        PROCEDURE DIVISION.
        INICIO.
@@ -79,18 +98,6 @@
                 DISPLAY  (07, 01) "TELEFONE             : "
                 DISPLAY  (08, 01) "TIPO DE AMIGO        : "
                 DISPLAY  (09, 01) "DATA DE NASCIMENTO   : ".
-                
-      * Tipos de amigos 
-      * 0-faculdade
-      * 1-igreja
-      * 2-bairro
-      * 3-clube
-      * 4-balada
-      * 5-academia
-      * 6-boteco
-      * 7-praia
-      * 8-viagem
-      * 9- inimigo
                 
        INC-002.
                 ACCEPT  (04, 23) APELIDO
