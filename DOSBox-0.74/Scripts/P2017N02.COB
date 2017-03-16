@@ -34,6 +34,7 @@
                     05 ANO              PIC 9(4).
                 03 VALORVEICULO         PIC 9(6)V99.
                 03 IPVA                 PIC 99V99.
+                03 VALORIPVA            PIC 9(7).
                 03 SITUACAO             PIC X(1).
    
       *
@@ -55,19 +56,44 @@
        
       * TODO: concertar essa tabela com as marcas certas 
        01 TABMARCAS.
-               03 AMIGO1 PIC X(12) VALUE "FORD".  
-               03 AMIGO2 PIC X(12) VALUE "FIAT".  
-               03 AMIGO3 PIC X(12) VALUE "BAIRRO".  
-               03 AMIGO4 PIC X(12) VALUE "CLUBE".  
-               03 AMIGO5 PIC X(12) VALUE "BALADA".  
-               03 AMIGO6 PIC X(12) VALUE "ACADEMIA".  
-               03 AMIGO7 PIC X(12) VALUE "BOTECO".  
-               03 AMIGO8 PIC X(12) VALUE "PRAIA".  
-               03 AMIGO9 PIC X(12) VALUE "VIAGEM".  
-               03 AMIGO10 PIC X(12) VALUE "INIMIGO".
+               03 VEICULO1 PIC X(12) VALUE "FORD".  
+               03 VEICULO2 PIC X(12) VALUE "FIAT".  
+               03 VEICULO3 PIC X(12) VALUE "BAIRRO".  
+               03 VEICULO4 PIC X(12) VALUE "CLUBE".  
+               03 VEICULO5 PIC X(12) VALUE "BALADA".  
+               03 VEICULO6 PIC X(12) VALUE "ACADEMIA".  
+               03 VEICULO7 PIC X(12) VALUE "BOTECO".  
+               03 VEICULO8 PIC X(12) VALUE "PRAIA".  
+               03 VEICULO9 PIC X(12) VALUE "VIAGEM".  
+               03 VEICULO10 PIC X(12) VALUE "INIMIGO".
        
-       01 INDICE REDEFINES TABMARCAS.
-               03 INDICE PIC X(12) OCCURS 10 TIMES.    
+       01 TABELAMARCAS REDEFINES TABMARCAS.
+               03 INDEXTABMARCAS PIC X(12) OCCURS 10 TIMES.
+
+       01 TABSITUACAO.
+               03 SITUACAO1 PIC X(12) VALUE "USADO".  
+               03 SITUACAO2 PIC X(12) VALUE "NOVO".  
+               03 SITUACAO3 PIC X(12) VALUE "SUCATA".
+
+       01 TABELA SITUACAO REDEFINES TABSITUACAO.
+               03 INDEXTABSITUACAO PIC X(12) OCCURS 3 TIMES.
+
+       01 TABDIAMES.
+               03 TABJAN PIC 9(02) VALUE 31.
+               03 TABFEV PIC 9(02) VALUE 28.
+               03 TABMAR PIC 9(02) VALUE 31.
+               03 TABABR PIC 9(02) VALUE 30.
+               03 TABMAI PIC 9(02) VALUE 31.
+               03 TABJUN PIC 9(02) VALUE 30.
+               03 TABJUL PIC 9(02) VALUE 31.
+               03 TABAGO PIC 9(02) VALUE 31.
+               03 TABSET PIC 9(02) VALUE 30.
+               03 TABOUT PIC 9(02) VALUE 31.
+               03 TABNOV PIC 9(02) VALUE 30.
+               03 TABDEZ PIC 9(02) VALUE 31.
+       
+       01 TBDIAMES REDEFINES TABDIAMES.
+               03 TBDIAMESV PIC 9(02) OCCURS 12 TIMES.
       *-----------------------------------------------------------------
        PROCEDURE DIVISION.
        INICIO.
@@ -88,9 +114,11 @@
            END-IF.
                  NEXT SENTENCE.
                     
-       INC-001.
-                MOVE ZEROS  TO DATACOMPRA MARCA
-                MOVE SPACES TO PROPRIETARIO PLACA
+       START-TELA.
+                MOVE ZEROS  TO DATACOMPRA MARCA DIA MES ANO VALORVEICULO
+                MOVE ZEROS  TO VALORIPVA IPVA  
+                MOVE SPACES TO PROPRIETARIO LETRA SITUACAO
+
                 DISPLAY (01, 01) ERASE
                 DISPLAY  (01, 20) "CADASTRO DE VEICULO"
                 DISPLAY  (04, 01) "PLACA                : "
@@ -103,23 +131,35 @@
                 DISPLAY  (11, 01) "SITUAÇÃO             : "
 
                 
-       INC-002.
-                ACCEPT  (04, 23) PLACA
+       LER-LETRA.
+                ACCEPT  (04, 23) LETRA 
                 ACCEPT W-ACT FROM ESCAPE KEY
                  IF W-ACT = 02
                    CLOSE VEICULO
                    GO TO ROT-FIM.
-                IF PLACA  = 0
+                IF LETRA  = 0   
                    MOVE "*** VEICULO INVALIDO ***" TO MENS
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
-                   GO TO INC-001.
+                   GO TO START-TELA.
+       LER-NUMERO.
+                ACCEPT (04,26) NUMERO
+                ACCEPT W-ACT FROM ESCAPE KEY 
+
+                IF W-ACT = 02
+                        CLOSE VEICULO
+                        GO TO ROT-FIM.
+
+                IF NUMERO <1000 OR NUM > 9999
+                   MOVE "*** VEICULO INVALIDO ***" TO MENS
+                   PERFORM ROT-MENS THRU ROT-MENS-FIM
+                   GO TO START-TELA.
+
                    
-       LER-VEICULO01.
+       LER-VEICULO.
                 MOVE 0 TO W-SEL
                 READ VEICULO
                 IF ST-ERRO NOT = "23"
                    IF ST-ERRO = "00"
-                      DISPLAY (04, 23) PLACA
                       DISPLAY (05, 23) PROPRIETARIO
                       DISPLAY (06, 23) MARCA
                       DISPLAY (07, 23) DATACOMPRA
