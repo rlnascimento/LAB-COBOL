@@ -26,7 +26,7 @@
                 03 PLACA.
                     05 LETRA            PIC X(3).
                     05 NUMERO           PIC 9(4).
-                03 PROPIETARIO          PIC X(35).
+                03 PROPRIETARIO          PIC X(35).
                 03 MARCA                PIC 9(1).
                 03 DATACOMPRA.
                     05 DIA              PIC 99.
@@ -47,7 +47,8 @@
        77 W-ACT        PIC 9(02) VALUE ZEROS.
        77 MENS         PIC X(50) VALUE SPACES.
        77 LIMPA        PIC X(50) VALUE SPACES.
-      *77 MASC1        PIC 9.999.9999  NOTA: ainda não consegui fazer esse bang funcionar
+       77 TEXTOSITUACAO  PIC X(10)      VALUE SPACES.
+       77 CONTA          PIC 9(06)V99   VALUE ZEROS.
        
       * VETOR
 
@@ -75,7 +76,7 @@
                03 SITUACAO2 PIC X(12) VALUE "NOVO".  
                03 SITUACAO3 PIC X(12) VALUE "SUCATA".
 
-       01 TABELA SITUACAO REDEFINES TABSITUACAO.
+       01 TABELASITUACAO REDEFINES TABSITUACAO.
                03 INDEXTABSITUACAO PIC X(12) OCCURS 3 TIMES.
 
        01 TABDIAMES.
@@ -101,35 +102,35 @@
        INC-OP0.
            OPEN I-O VEICULO
            IF ST-ERRO NOT = "00"
-               IF ST-ERRO = "30"
-                      OPEN OUTPUT VEICULO
-                      CLOSE VEICULO
-                      MOVE "*** ARQUIVO DE VEICULOS SENDO CRIADO **" TO MENS
-                      PERFORM ROT-MENS THRU ROT-MENS-FIM
-                      GO TO INC-OP0
-               END-IF.
-                      MOVE "ERRO NA ABERTURA DO ARQUIVO DE VEICULOS" TO MENS
-                      PERFORM ROT-MENS THRU ROT-MENS-FIM
-                      GO TO ROT-FIM
-           END-IF.
-                 NEXT SENTENCE.
+             IF ST-ERRO = "30"
+                OPEN OUTPUT VEICULO
+                CLOSE VEICULO
+                MOVE "ARQUIVO DE VEICULOS SENDO CRIADO" TO MENS
+                PERFORM ROT-MENS THRU ROT-MENS-FIM
+                GO TO INC-OP0
+
+             ELSE
+                MOVE "ERRO NA ABERTURA DO ARQUIVO DE VEICULOS" TO MENS
+                PERFORM ROT-MENS THRU ROT-MENS-FIM
+                GO TO ROT-FIM
+           ELSE
+                   NEXT SENTENCE.
                     
        START-TELA.
-                MOVE ZEROS  TO DATACOMPRA MARCA DIA MES ANO VALORVEICULO
-                MOVE ZEROS  TO VALORIPVA IPVA  
-                MOVE SPACES TO PROPRIETARIO LETRA SITUACAO
+             MOVE ZEROS  TO DATACOMPRA MARCA DIA MES ANO VALORVEICULO
+             MOVE ZEROS  TO VALORIPVA IPVA
+             MOVE SPACES TO PROPRIETARIO SITUACAO
 
-                DISPLAY (01, 01) ERASE
-                DISPLAY  (01, 20) "CADASTRO DE VEICULO"
-                DISPLAY  (04, 01) "PLACA                : "
-                DISPLAY  (05, 01) "PROPRIETARIO         : "
-                DISPLAY  (06, 01) "MARCA                : "
-                DISPLAY  (07, 01) "DATA COMPRA          : "
-                DISPLAY  (08, 01) "VALOR DO VEICULO     : "
-                DISPLAY  (09, 01) "IPVA                 : "
-                DISPLAY  (10, 01) "VALOR IPVA           : "
-                DISPLAY  (11, 01) "SITUAÇÃO             : "
-
+             DISPLAY (01, 01) ERASE.
+             DISPLAY  (01, 20) "CADASTRO DE VEICULO"
+             DISPLAY  (04, 01) "PLACA                : "
+             DISPLAY  (05, 01) "PROPRIETARIO         : "
+             DISPLAY  (06, 01) "MARCA                : "
+             DISPLAY  (07, 01) "DATA COMPRA          :__-__-____"
+             DISPLAY  (08, 01) "VALOR DO VEICULO     : "
+             DISPLAY  (09, 01) "IPVA                 : "
+             DISPLAY  (10, 01) "VALOR IPVA           : "
+             DISPLAY  (11, 01) "SITUACAO             : ".
                 
        LER-LETRA.
                 ACCEPT  (04, 23) LETRA 
@@ -138,19 +139,19 @@
                    CLOSE VEICULO
                    GO TO ROT-FIM.
                 IF LETRA  = 0   
-                   MOVE "*** VEICULO INVALIDO ***" TO MENS
+                   MOVE "*** PLACA INVALIDA ***" TO MENS
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
                    GO TO START-TELA.
        LER-NUMERO.
-                ACCEPT (04,26) NUMERO
+                ACCEPT (04, 26) NUMERO
                 ACCEPT W-ACT FROM ESCAPE KEY 
 
                 IF W-ACT = 02
                         CLOSE VEICULO
                         GO TO ROT-FIM.
 
-                IF NUMERO <1000 OR NUM > 9999
-                   MOVE "*** VEICULO INVALIDO ***" TO MENS
+                IF NUMERO < 1000 OR NUMERO > 9999
+                   MOVE "*** PLACA INVALIDA ***" TO MENS
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
                    GO TO START-TELA.
 
@@ -176,71 +177,121 @@
                       MOVE "ERRO NA LEITURA ARQUIVO VEICULO"   TO MENS
                       PERFORM ROT-MENS THRU ROT-MENS-FIM
                       GO TO ROT-FIM
-                ELSE
-                   NEXT SENTENCE.
+                ELSE.
                    
-       INC-003.
+       LER-PROPIETARIO.
                 ACCEPT (05, 23) PROPRIETARIO
                 ACCEPT W-ACT FROM ESCAPE KEY
-                IF W-ACT = 02 GO TO INC-002.
-       INC-004.
+                IF W-ACT = 02 GO TO LER-LETRA.
+       LER-MARCA.
                 ACCEPT (06, 23) MARCA
                 ACCEPT W-ACT FROM ESCAPE KEY
-                IF W-ACT = 02 GO TO INC-003.
-       INC-005.
-                ACCEPT (07, 23) DATACOMPRA
+                IF W-ACT = 02 GO TO LER-PROPIETARIO.
+       LER-DIA.
+                ACCEPT (07, 23) DIA
                 ACCEPT W-ACT FROM ESCAPE KEY
-                IF W-ACT = 02 GO TO INC-004.
-       INC-006.
+                IF W-ACT = 02 GO TO LER-MARCA.
+                IF DIA < 1 OR DIA > 31
+                        MOVE "*Dia invalido" TO MENS.
+                        PERFORM ROT-MENS THRU ROT-MENS-FIM
+                        GO TO LER-DIA.
+       LER-MES.
+                ACCEPT (07, 26) MES
+                ACCEPT W-ACT FROM ESCAPE KEY
+                IF W-ACT = 02 GO TO LER-DIA.
+                IF MES < 1 OR MES > 12
+                        MOVE "*Mês Invalido" TO MENS.
+                        PERFORM ROT-MENS THRU ROT-MENS-FIM
+                        GO TO LER-MES.
+          
+       LER-ANO.
+                ACCEPT (07, 29) ANO
+                ACCEPT W-ACT FROM ESCAPE KEY
+                IF W-ACT = 02 GO TO LER-MARCA.
+                IF ANO < 1900 OR ANO > 2999
+                        MOVE "*Ano inválido" TO MENS.
+                        PERFORM ROT-MENS THRU ROT-MENS-FIM
+                        GO TO LER-ANO.
+      * NOTA: Colocar o resto dos testes de dias depois
+
+       LER-VALORVEICULO.
                 ACCEPT (08, 23) VALORVEICULO
                 ACCEPT W-ACT FROM ESCAPE KEY
-                IF W-ACT = 02 GO TO INC-005.
-       INC-007.
+                IF W-ACT = 02 GO TO LER-DIA.
+                IF VALORVEICULO < 0 OR VALORVEICULO > 99999999
+                        MOVE "*VALOR INVALIDO*" TO MENS.
+                        PERFORM ROT-MENS THRU ROT-MENS-FIM.
+                        GO TO LER-VALORVEICULO.
+       LER-IPVA.
                 ACCEPT (09, 23) IPVA
                 ACCEPT W-ACT FROM ESCAPE KEY
-                IF W-ACT = 02 GO TO INC-006.
-       INC-008.
-                ACCEPT (10, 23) VALORIPVA
-                ACCEPT W-ACT FROM ESCAPE KEY
-                IF W-ACT = 02 GO TO INC-007.
-       INC-009.
+                IF W-ACT = 02 GO TO LER-VALORVEICULO.
+                IF IPVA < 0 OR IPVA > 100
+                        MOVE "*IPVA INVALIDO*" TO MENS.
+                        PERFORM ROT-MENS THRU ROT-MENS-FIM.
+                        GO TO LER-IPVA.
+       CALC-IPVA.
+                DIVIDE IPVA BY 100 GIVING CONTA
+                MULTIPLY CONTA BY VALORVEICULO GIVING VALORIPVA
+                DISPLAY (10, 23) VALORIPVA.
+
+       LER-SITUACAO.
                 ACCEPT (10, 23) SITUACAO
                 ACCEPT W-ACT FROM ESCAPE KEY
-                IF W-ACT = 02 GO TO INC-008.
+                IF W-ACT = 02 GO TO LER-IPVA.
 
-                IF W-SEL = 1
-                              GO TO ALT-OPC.
+                IF SITUACAO = SPACES
+                        MOVE "*Situação invalida*" to MENS
+                        PERFORM ROT-MENS THRU ROT-MENS-FIM.
+                        GO TO LER-SITUACAO.
+       SHOW-TEXTOSITUACAO.
+                IF SITUACAO = "N" OR "n"
+                   MOVE INDEXTABSITUACAO(1) TO TEXTOSITUACAO
+                   DISPLAY (11, 20) TEXTOSITUACAO
+                ELSE
+                   IF SITUACAO = "U" OR "u"
+                      MOVE INDEXTABSITUACAO(2) TO TEXTOSITUACAO
+                      DISPLAY (11, 20) TEXTOSITUACAO
+                   ELSE
+                      IF SITUACAO = "S" OR "s"
+                         MOVE INDEXTABSITUACAO(3) TO TEXTOSITUACAO
+                         DISPLAY (11, 20) TEXTOSITUACAO
+                      ELSE
+                         MOVE "*** SITUAÇÃO INVALIDO ***" TO MENS
+                         PERFORM ROT-MENS THRU ROT-MENS-FIM
+                         GO TO LER-SITUACAO.
+                IF W-SEL = 1 GO TO ALT-OPC.
 
        INC-OPC.
                 MOVE "S" TO W-OPCAO
                 DISPLAY (23, 40) "DADOS OK (S/N) : ".
                 ACCEPT (23, 57) W-OPCAO WITH UPDATE
                 ACCEPT W-ACT FROM ESCAPE KEY
-                IF W-ACT = 02 GO TO INC-009.
+                IF W-ACT = 02 GO TO LER-SITUACAO.
                 IF W-OPCAO = "N" OR "n"
                    MOVE "*** DADOS RECUSADOS PELO OPERADOR ***" TO MENS
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
-                   GO TO INC-001.
+                   GO TO START-TELA.
+
                 IF W-OPCAO NOT = "S" AND "s"
                    MOVE "*** DIGITE APENAS S=SIM e N=NAO ***" TO MENS
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
                    GO TO INC-OPC.
-                   
+                
        INC-WR1.
-                WRITE VEICULO
+                WRITE REGVEICULO
                 IF ST-ERRO = "00" OR "02"
                       MOVE "*** VEICULO GRAVADO *** " TO MENS
                       PERFORM ROT-MENS THRU ROT-MENS-FIM
-                      GO TO INC-001.
+                      GO TO START-TELA.
                 IF ST-ERRO = "22"
                       MOVE "*** VEICULO JA EXISTE ***       " TO MENS
                       PERFORM ROT-MENS THRU ROT-MENS-FIM
-                      GO TO INC-001.
+                      GO TO START-TELA
                 ELSE
-                      MOVE "ERRO NA GRAVACAO DO ARQUIVO DE VEICULOS"
-                                                       TO MENS
-                      PERFORM ROT-MENS THRU ROT-MENS-FIM
-                      GO TO ROT-FIM.
+                  MOVE "ERRO NA GRAVACAO DO ARQUIVO DE VEICULOS" TO MENS
+                  PERFORM ROT-MENS THRU ROT-MENS-FIM
+                  GO TO ROT-FIM.
       *
       *****************************************
       * ROTINA DE CONSULTA/ALTERACAO/EXCLUSAO *
@@ -257,9 +308,9 @@
                 DISPLAY (23, 12) MENS
                 IF W-ACT = 02
                    MOVE 02 TO W-SEL
-                   GO TO INC-001.
+                   GO TO START-TELA.
                 IF W-ACT = 03
-                   GO TO INC-003.
+                   GO TO LER-LETRA.
       *
        EXC-OPC.
                 DISPLAY (23, 40) "EXCLUIR   (S/N) : ".
@@ -267,7 +318,7 @@
                 IF W-OPCAO = "N" OR "n"
                    MOVE "*** REGISTRO NAO EXCLUIDO ***" TO MENS
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
-                   GO TO INC-001.
+                   GO TO START-TELA.
                 IF W-OPCAO NOT = "S" AND "s"
                    MOVE "*** DIGITE APENAS S=SIM  e  N=NAO ***" TO MENS
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
@@ -277,7 +328,7 @@
                 IF ST-ERRO = "00"
                    MOVE "*** REGISTRO EXCLUIDO ***           " TO MENS
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
-                   GO TO INC-001.
+                   GO TO START-TELA.
                 MOVE "ERRO NA EXCLUSAO DO REGISTRO "   TO MENS
                 PERFORM ROT-MENS THRU ROT-MENS-FIM
                 GO TO ROT-FIM.
@@ -286,21 +337,21 @@
                 DISPLAY (23, 40) "ALTERAR  (S/N) : ".
                 ACCEPT (23, 57) W-OPCAO
                 ACCEPT W-ACT FROM ESCAPE KEY
-                IF W-ACT = 02 GO TO INC-005.
+                IF W-ACT = 02 GO TO LER-MARCA.
                 IF W-OPCAO = "N" OR "n"
                    MOVE "*** INFORMACOES NAO ALTERADAS *** " TO MENS
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
-                   GO TO INC-001.
+                   GO TO START-TELA.
                 IF W-OPCAO NOT = "S" AND "s"
                    MOVE "*** DIGITE APENAS S=SIM  e  N=NAO ***" TO MENS
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
                    GO TO ALT-OPC.
        ALT-RW1.
-                REWRITE VEICULO
+                REWRITE REGVEICULO
                 IF ST-ERRO = "00" OR "02"
                    MOVE "*** REGISTRO ALTERADO ***         " TO MENS
                    PERFORM ROT-MENS THRU ROT-MENS-FIM
-                   GO TO INC-001.
+                   GO TO START-TELA.
                 MOVE "ERRO NA EXCLUSAO DO REGISTRO VEICULO"   TO MENS
                 PERFORM ROT-MENS THRU ROT-MENS-FIM
                 GO TO ROT-FIM.
