@@ -126,11 +126,10 @@
              DISPLAY  (04, 01) "PLACA                : "
              DISPLAY  (05, 01) "PROPRIETARIO         : "
              DISPLAY  (06, 01) "MARCA                : "
-             DISPLAY  (07, 01) "DATA COMPRA          :__-__-____"
+             DISPLAY  (07, 01) "DATA COMPRA          : "
              DISPLAY  (08, 01) "VALOR DO VEICULO     : "
              DISPLAY  (09, 01) "IPVA                 : "
-             DISPLAY  (10, 01) "VALOR IPVA           : "
-             DISPLAY  (11, 01) "SITUACAO             : ".
+             DISPLAY  (10, 01) "SITUACAO             : ".
                 
        LER-LETRA.
                 ACCEPT  (04, 23) LETRA 
@@ -192,7 +191,7 @@
                 ACCEPT W-ACT FROM ESCAPE KEY
                 IF W-ACT = 02 GO TO LER-MARCA.
                 IF DIA < 1 OR DIA > 31
-                        MOVE "*Dia invalido" TO MENS.
+                        MOVE "DIA INVALIDO" TO MENS
                         PERFORM ROT-MENS THRU ROT-MENS-FIM
                         GO TO LER-DIA.
        LER-MES.
@@ -200,7 +199,7 @@
                 ACCEPT W-ACT FROM ESCAPE KEY
                 IF W-ACT = 02 GO TO LER-DIA.
                 IF MES < 1 OR MES > 12
-                        MOVE "*Mês Invalido" TO MENS.
+                        MOVE "*Mês Invalido" TO MENS
                         PERFORM ROT-MENS THRU ROT-MENS-FIM
                         GO TO LER-MES.
           
@@ -209,7 +208,7 @@
                 ACCEPT W-ACT FROM ESCAPE KEY
                 IF W-ACT = 02 GO TO LER-MARCA.
                 IF ANO < 1900 OR ANO > 2999
-                        MOVE "*Ano inválido" TO MENS.
+                        MOVE "*Ano inválido" TO MENS
                         PERFORM ROT-MENS THRU ROT-MENS-FIM
                         GO TO LER-ANO.
       * NOTA: Colocar o resto dos testes de dias depois
@@ -219,21 +218,21 @@
                 ACCEPT W-ACT FROM ESCAPE KEY
                 IF W-ACT = 02 GO TO LER-DIA.
                 IF VALORVEICULO < 0 OR VALORVEICULO > 99999999
-                        MOVE "*VALOR INVALIDO*" TO MENS.
-                        PERFORM ROT-MENS THRU ROT-MENS-FIM.
+                        MOVE "*VALOR INVALIDO*" TO MENS
+                        PERFORM ROT-MENS THRU ROT-MENS-FIM
                         GO TO LER-VALORVEICULO.
        LER-IPVA.
                 ACCEPT (09, 23) IPVA
                 ACCEPT W-ACT FROM ESCAPE KEY
                 IF W-ACT = 02 GO TO LER-VALORVEICULO.
                 IF IPVA < 0 OR IPVA > 100
-                        MOVE "*IPVA INVALIDO*" TO MENS.
-                        PERFORM ROT-MENS THRU ROT-MENS-FIM.
+                        MOVE "*IPVA INVALIDO*" TO MENS
+                        PERFORM ROT-MENS THRU ROT-MENS-FIM
                         GO TO LER-IPVA.
        CALC-IPVA.
                 DIVIDE IPVA BY 100 GIVING CONTA
                 MULTIPLY CONTA BY VALORVEICULO GIVING VALORIPVA
-                DISPLAY (10, 23) VALORIPVA.
+                DISPLAY (9, 40) VALORIPVA.
 
        LER-SITUACAO.
                 ACCEPT (10, 23) SITUACAO
@@ -242,7 +241,7 @@
 
                 IF SITUACAO = SPACES
                         MOVE "*Situação invalida*" to MENS
-                        PERFORM ROT-MENS THRU ROT-MENS-FIM.
+                        PERFORM ROT-MENS THRU ROT-MENS-FIM
                         GO TO LER-SITUACAO.
        SHOW-TEXTOSITUACAO.
                 IF SITUACAO = "N" OR "n"
@@ -310,7 +309,7 @@
                    MOVE 02 TO W-SEL
                    GO TO START-TELA.
                 IF W-ACT = 03
-                   GO TO LER-LETRA.
+                   GO TO LER-PROPIETARIO.
       *
        EXC-OPC.
                 DISPLAY (23, 40) "EXCLUIR   (S/N) : ".
